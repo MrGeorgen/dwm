@@ -61,15 +61,16 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static char dmenucmdstr[256] = "--dmenu=\"";
 static const char *j4_dmenu_desktopcmd[] = {"j4-dmenu-desktop", dmenucmdstr, NULL};
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "st", "-f", "Liberation Mono:size=10.5", NULL };
 static const char *firefoxcmd[] = {"firefox", NULL};
 static const char *sleepcmd[] = {"loginctl", "suspend", NULL};
 static const char *shutdowncmd[] = {"loginctl", "poweroff", NULL};
 static const char *lockcmd[] = {"loginctl", "lock-session", NULL};
 static const char *rebootcmd[] = {"loginctl", "reboot", NULL};
+static const char *screenshotcmd[] = {"/bin/bash", "-c", "import -window root ~/Bilder/screenshots/$(date +%m_%d_%y_%T).png", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -80,6 +81,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_h,      spawn,          {.v = shutdowncmd}},
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd}},
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          {.v = rebootcmd}},
+	{ MODKEY,			XK_s,	   spawn,	   {.v = screenshotcmd}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -129,10 +131,12 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+#include <stdio.h>
 void config_start() {
 	for (unsigned i = 0; dmenucmd[i] != NULL; ++i) {
 		strcat(dmenucmdstr, dmenucmd[i]);
 		strcat(dmenucmdstr, "\" \"");
 	}
 	dmenucmdstr[strlen(dmenucmdstr) - 2] = '\0';
+	//printf("%s\n", dmenucmdstr);
 }

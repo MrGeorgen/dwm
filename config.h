@@ -20,7 +20,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "dc", "KeePass", "vimpc", "g", "rss" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -29,10 +29,16 @@ static const Rule rules[] = {
 	 */
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
 	{ "Gimp",    NULL,     NULL,           0,         1,          0,           0,        -1 },
-	//{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
 	{"KeePassXC",NULL,     NULL,           1 << 8,    0,          0,           0,        -1},
+	{NULL,       "noSwallow",NULL,	       0,	  0,	      0,	   1,	     -1},
+	{NULL,	     NULL,     "newsboat",     1 << 11,	  0,	      0,	   0,	     -1},
+	{NULL,       NULL,     "vimpc",        1 << 9,    0,          0,           0,        -1},
 	{NULL,       NULL,    "Discord Updater",1 << 7,   0,          0,           0,        -1},
 	{NULL,       NULL,    "Discord",       1 << 7,    0,          0,           0,        -1},
+	{"MultiMC5", NULL,     NULL,	       1 << 10,   0,	      0,	   0,	     -1},
+	{"Minecraft", "Minecraft", NULL,       1 << 10,   0,	      0,	   0,	     -1},
+	{NULL,	     NULL,     "Steam",	       1 << 10,   1,	      0,	   0,	     -1},
+	{"Steam",    NULL,     NULL,	       1 << 10,   1,	      0,	   0,	     -1},
 	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
 };
 
@@ -70,7 +76,11 @@ static const char *sleepcmd[] = {"loginctl", "suspend", NULL};
 static const char *shutdowncmd[] = {"loginctl", "poweroff", NULL};
 static const char *lockcmd[] = {"loginctl", "lock-session", NULL};
 static const char *rebootcmd[] = {"loginctl", "reboot", NULL};
-static const char *screenshotcmd[] = {"/bin/bash", "-c", "import -window root ~/Bilder/screenshots/$(date +%m_%d_%y_%T).png", NULL};
+static const char *screenshotcmd[] = {"screenshot", NULL};
+static const char *mpcTogglecmd[] = {"mpc", "toggle", NULL};
+static const char *mpcNextcmd[] = {"mpc", "next", NULL};
+static const char *mpcPrevcmd[] = {"mpc", "prev", NULL};
+static const char *droidcamTogglecmd[] = {"droidcamToggle", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -82,6 +92,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd}},
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          {.v = rebootcmd}},
 	{ MODKEY,			XK_s,	   spawn,	   {.v = screenshotcmd}},
+	{ MODKEY,			XK_a,	   spawn,	   {.v = mpcTogglecmd}},
+	{ MODKEY,			XK_n,	   spawn,	   {.v = mpcNextcmd}},
+	{ MODKEY,			XK_v,	   spawn,	   {.v = mpcPrevcmd}},
+	{ MODKEY,			XK_x,	   spawn,	   {.v = droidcamTogglecmd}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -110,8 +124,11 @@ static Key keys[] = {
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
+	TAGKEYS(                        XK_e,                      7)
+	TAGKEYS(                        XK_w,                      8)
+	TAGKEYS(			XK_y,			   9)
+	TAGKEYS(			XK_g,			   10)
+	TAGKEYS(			XK_u,			   11)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 

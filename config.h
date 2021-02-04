@@ -20,7 +20,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "dc", "KeePass", "vimpc", "g", "rss" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "dc", "KP", "m", "g", "rss", "t" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -39,7 +39,8 @@ static const Rule rules[] = {
 	{"Minecraft", "Minecraft", NULL,       1 << 10,   0,	      0,	   0,	     -1},
 	{NULL,	     NULL,     "Steam",	       1 << 10,   1,	      0,	   0,	     -1},
 	{"Steam",    NULL,     NULL,	       1 << 10,   1,	      0,	   0,	     -1},
-	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1},
+	{"Microsoft Teams - Preview", NULL, NULL, 1 << 12, 0,	      0,	   0,	      -1},
 };
 
 /* layout(s) */
@@ -81,6 +82,7 @@ static const char *mpcTogglecmd[] = {"mpc", "toggle", NULL};
 static const char *mpcNextcmd[] = {"mpc", "next", NULL};
 static const char *mpcPrevcmd[] = {"mpc", "prev", NULL};
 static const char *droidcamTogglecmd[] = {"droidcamToggle", NULL};
+static const char *dummycmd[] = {"echo", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -96,6 +98,8 @@ static Key keys[] = {
 	{ MODKEY,			XK_n,	   spawn,	   {.v = mpcNextcmd}},
 	{ MODKEY,			XK_v,	   spawn,	   {.v = mpcPrevcmd}},
 	{ MODKEY,			XK_x,	   spawn,	   {.v = droidcamTogglecmd}},
+	{ MODKEY,			XK_odiaeresis, spawn,	   {.v = dummycmd}},
+	{ MODKEY,			XK_m,	   spawn, 	   {.v = dummycmd}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -129,6 +133,7 @@ static Key keys[] = {
 	TAGKEYS(			XK_y,			   9)
 	TAGKEYS(			XK_g,			   10)
 	TAGKEYS(			XK_u,			   11)
+	TAGKEYS(			XK_z,			   12)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 

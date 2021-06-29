@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <string.h>
+#include <X11/XF86keysym.h>
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -20,7 +21,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "dc", "KP", "m", "g", "rss", "t" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "dc", "KP", "m", "g", "rss", "t", "w" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -41,6 +42,7 @@ static const Rule rules[] = {
 	{"Steam",    NULL,     NULL,	       1 << 10,   1,	      0,	   0,	     -1},
 	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1},
 	{"Microsoft Teams - Preview", NULL, NULL, 1 << 12, 0,	      0,	   0,	      -1},
+	{"Rambox",   NULL,     NULL,	       1 << 13,	  0,	      0,	   0,	      -1},
 };
 
 /* layout(s) */
@@ -73,16 +75,17 @@ static char dmenucmdstr[256] = "--dmenu=\"";
 static const char *j4_dmenu_desktopcmd[] = {"j4-dmenu-desktop", dmenucmdstr, NULL};
 static const char *termcmd[]  = { "st", "-f", "Liberation Mono:size=10.5", NULL };
 static const char *firefoxcmd[] = {"firefox", NULL};
-static const char *sleepcmd[] = {"loginctl", "suspend", NULL};
-static const char *shutdowncmd[] = {"loginctl", "poweroff", NULL};
-static const char *lockcmd[] = {"loginctl", "lock-session", NULL};
-static const char *rebootcmd[] = {"loginctl", "reboot", NULL};
+static const char *sleepcmd[] = {"systemctl", "suspend", NULL};
+static const char *shutdowncmd[] = {"systemctl", "poweroff", NULL};
+static const char *lockcmd[] = {"systemctl", "lock-session", NULL};
+static const char *rebootcmd[] = {"systemctl", "reboot", NULL};
 static const char *screenshotcmd[] = {"screenshot", NULL};
 static const char *mpcTogglecmd[] = {"mpc", "toggle", NULL};
 static const char *mpcNextcmd[] = {"mpc", "next", NULL};
 static const char *mpcPrevcmd[] = {"mpc", "prev", NULL};
+static const char *mpcBegincmd[] = {"mpc", "seek", "0", NULL};
 static const char *droidcamTogglecmd[] = {"droidcamToggle", NULL};
-static const char *dummycmd[] = {"echo", NULL};
+static const char *dummycmd[] = {"echo", "-n", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -94,9 +97,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd}},
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          {.v = rebootcmd}},
 	{ MODKEY,			XK_s,	   spawn,	   {.v = screenshotcmd}},
-	{ MODKEY,			XK_a,	   spawn,	   {.v = mpcTogglecmd}},
-	{ MODKEY,			XK_n,	   spawn,	   {.v = mpcNextcmd}},
-	{ MODKEY,			XK_v,	   spawn,	   {.v = mpcPrevcmd}},
+	{ 0,				XF86XK_AudioPlay,spawn,	   {.v = mpcTogglecmd}},
+	{ 0,				XF86XK_AudioNext,spawn,	   {.v = mpcNextcmd}},
+	{ 0,				XF86XK_AudioPrev,spawn,	   {.v = mpcPrevcmd}},
+	{ 0,				XF86XK_AudioStop,spawn,	   {.v = mpcBegincmd}},
 	{ MODKEY,			XK_x,	   spawn,	   {.v = droidcamTogglecmd}},
 	{ MODKEY,			XK_odiaeresis, spawn,	   {.v = dummycmd}},
 	{ MODKEY,			XK_m,	   spawn, 	   {.v = dummycmd}},
@@ -134,6 +138,7 @@ static Key keys[] = {
 	TAGKEYS(			XK_g,			   10)
 	TAGKEYS(			XK_u,			   11)
 	TAGKEYS(			XK_z,			   12)
+	TAGKEYS(			XK_a,			   13)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
